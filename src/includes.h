@@ -27,6 +27,7 @@
 #include <string>
 #include <cstdint>
 #include <chrono>
+#include <vector>
 
 // time
 
@@ -53,6 +54,14 @@ inline void Print(const char* message)
 {
   std::cout << message << std::endl;
 }
+
+
+inline void Print(const std::vector<uint8_t> message) // outputs to console
+{
+    for (auto i = message.begin(); i != message.end(); ++i)
+        std::cout << *i << ' ';
+}
+
 
 void Print2(const std::string& message); // outputs to console and irc
 

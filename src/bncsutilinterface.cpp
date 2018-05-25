@@ -76,12 +76,22 @@ inline static std::string CaseInsensitiveFileExists(const std::string& path, std
 
 bool CBNCSUtilInterface::HELP_SID_AUTH_CHECK(const string& war3Path, const string& keyROC, const string& keyTFT, const string& valueStringFormula, const string& mpqFileName, const std::vector<uint8_t>& clientToken, const std::vector<uint8_t>& serverToken, const uint8_t war3Version)
 {
-  const string FileWar3EXE = [&]() {
-    if (war3Version >= 28)
-      return CaseInsensitiveFileExists(war3Path, "Warcraft III.exe");
-    else
-      return CaseInsensitiveFileExists(war3Path, "war3.exe");
-  }();
+//  const string FileWar3EXE = [&]() {
+//    if (war3Version >= 28)
+//      return CaseInsensitiveFileExists(war3Path, "Warcraft III.exe");
+//    else
+//      return CaseInsensitiveFileExists(war3Path, "war3.exe");
+//    // #ifdef _WIN32
+//    //   Print("[WORKING ON WINDOWS]");
+//    //
+//    // #elif __APPLE__
+//    //   Print("[WORKING ON APPLE]");
+//    //   return CaseInsensitiveFileExists(war3Path, "Warcraft III.app");
+//    // #endif
+//  }();
+//
+  const string FileWar3EXE = "/Applications/Warcraft\\ III\\ PC/Warcraft\\ III.exe";
+  Print("[DEBUG] " + war3Path + FileWar3EXE);
   const string FileStormDLL = CaseInsensitiveFileExists(war3Path, "storm.dll");
   const string FileGameDLL  = CaseInsensitiveFileExists(war3Path, "game.dll");
 
@@ -97,9 +107,9 @@ bool CBNCSUtilInterface::HELP_SID_AUTH_CHECK(const string& war3Path, const strin
     if(war3Version >= 29)
     {
       static const char* filesArray[] = {FileWar3EXE.c_str()};
-      checkRevision(valueStringFormula.c_str(), filesArray, 1, extractMPQNumber(mpqFileName.c_str()), reinterpret_cast<unsigned long*>(&EXEVersionHash));		
+      checkRevision(valueStringFormula.c_str(), filesArray, 1, extractMPQNumber(mpqFileName.c_str()), reinterpret_cast<unsigned long*>(&EXEVersionHash));
     }
-    else 
+    else
       checkRevisionFlat(valueStringFormula.c_str(), FileWar3EXE.c_str(), FileStormDLL.c_str(), FileGameDLL.c_str(), extractMPQNumber(mpqFileName.c_str()), reinterpret_cast<unsigned long*>(&EXEVersionHash));
     m_EXEInfo        = buf;
     m_EXEVersion     = CreateByteArray(EXEVersion, false);
